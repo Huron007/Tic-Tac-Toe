@@ -2,32 +2,31 @@ import java.util.Random;
 
 public class Game {
 
-    private static String[][] gameBoard = {
+    private String[][] gameBoard = {
             {"", "", ""},
             {"", "", ""},
             {"", "", ""}
     };
 
-    private static int[][] winnerFields;
-
-    private static int counter = 0;
+    private int[][] winnerFields;
+    private int counter = 0;
     private int rollRow;
     private int rollCol;
     private boolean draw;
-    public static final String xSymbol = "X";
-    public static final String oSymbol = "O";
+    public final String xSymbol = "X";
+    public final String oSymbol = "O";
     private String whoWon = "";
-    private int maxNumberOfTurns = 9;
-    private static int playerOneWins = 0;
-    private static int playerTwoWins = 0;
-    private static int machineWins = 0;
-    private static boolean isPlayerOneTurn = true;
+    private final int maxNumberOfTurns = 9;
+    private int playerOneWins = 0;
+    private int playerTwoWins = 0;
+    private int machineWins = 0;
+    private boolean isPlayerOneTurn = true;
     private boolean gameOver = false;
-    private static GAMESTATE state = GAMESTATE.PVE;
-    private Random rnd = new Random();
-    private DataSaver dataSaver = new DataSaver();
+    private GameState state = GameState.PVE;
+    private final Random rnd = new Random();
+    private final DataSaver dataSaver = new DataSaver(this);
 
-    public void gameSetup(GAMESTATE gamestate){
+    public void gameSetup(GameState gamestate){
         counter = 0;
         state = gamestate;
         gameOver = false;
@@ -37,7 +36,7 @@ public class Game {
 
     public void validMove(int row, int col) {
         if (gameBoard[row][col].equals("")) {
-            if (state == GAMESTATE.PVP) {
+            if (state == GameState.PVP) {
                 counter++;
                 isDraw();
                 if (isPlayerOneTurn) {
@@ -54,7 +53,7 @@ public class Game {
                 if (draw) {
                     draw();
                 }
-            } else if (state == GAMESTATE.PVE) {
+            } else if (state == GameState.PVE) {
                 if (isPlayerOneTurn) {
                     gameBoard[row][col] = xSymbol;
                     isPlayerOneTurn = false;
@@ -141,11 +140,11 @@ public class Game {
             playerOneWins++;
             whoWon = xSymbol;
         }
-        if(state == GAMESTATE.PVP && winner.equals(oSymbol)){
+        if(state == GameState.PVP && winner.equals(oSymbol)){
             playerTwoWins++;
             whoWon = oSymbol;
         }
-        if(state == GAMESTATE.PVE && winner.equals(oSymbol)){
+        if(state == GameState.PVE && winner.equals(oSymbol)){
             machineWins++;
             whoWon = "Machine";
         }
@@ -171,14 +170,15 @@ public class Game {
                 {"", "", ""},
                 {"", "", ""}
         };
-        winnerFields = null;
+        gameOver = false;
+        draw = false;
     }
 
-    public static int[][] getWinnerFields() {
+    public  int[][] getWinnerFields() {
         return winnerFields;
     }
 
-    public static String[][] getGameBoard() {
+    public  String[][] getGameBoard() {
         return gameBoard;
     }
 
@@ -196,27 +196,27 @@ public class Game {
         return draw;
     }
 
-    public static GAMESTATE getState() {
+    public GameState getState() {
         return state;
     }
 
-    public static int getCounter() {
+    public int getCounter() {
         return counter;
     }
 
-    public static boolean isPlayerOneTurn() {
+    public boolean isPlayerOneTurn() {
         return isPlayerOneTurn;
     }
 
-    public static int getPlayerOneWins() {
+    public int getPlayerOneWins() {
         return playerOneWins;
     }
 
-    public static int getPlayerTwoWins() {
+    public  int getPlayerTwoWins() {
         return playerTwoWins;
     }
 
-    public static int getMachineWins() {
+    public  int getMachineWins() {
         return machineWins;
     }
 
@@ -224,36 +224,36 @@ public class Game {
         return whoWon;
     }
 
-    public static boolean isIsPlayerOneTurn() {
+    public  boolean isIsPlayerOneTurn() {
         return isPlayerOneTurn;
     }
 
-    public static void setPlayerOneWins(int playerOneWins) {
-        Game.playerOneWins = playerOneWins;
+    public  void setPlayerOneWins(int playerOneWins) {
+        this.playerOneWins = playerOneWins;
     }
 
-    public static void setPlayerTwoWins(int playerTwoWins) {
-        Game.playerTwoWins = playerTwoWins;
+    public  void setPlayerTwoWins(int playerTwoWins) {
+        this.playerTwoWins = playerTwoWins;
     }
 
-    public static void setMachineWins(int machineWins) {
-        Game.machineWins = machineWins;
+    public  void setMachineWins(int machineWins) {
+        this.machineWins = machineWins;
     }
 
-    public static void setGameBoard(String gameBoard, int row, int col) {
-        Game.gameBoard[row][col] = gameBoard;
+    public  void setGameBoard(String gameBoard, int row, int col) {
+        this.gameBoard[row][col] = gameBoard;
     }
 
-    public static void setCounter(int counter) {
-        Game.counter = counter;
+    public  void setCounter(int counter) {
+        this.counter = counter;
     }
 
-    public static void setIsPlayerOneTurn(boolean isPlayerOneTurn) {
-        Game.isPlayerOneTurn = isPlayerOneTurn;
+    public  void setIsPlayerOneTurn(boolean isPlayerOneTurn) {
+        this.isPlayerOneTurn = isPlayerOneTurn;
     }
 
-    public static void setState(GAMESTATE state) {
-        Game.state = state;
+    public  void setState(GameState state) {
+        this.state = state;
     }
 }
 

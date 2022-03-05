@@ -8,8 +8,8 @@ import java.io.IOException;
 
 public class Board implements ActionListener {
 
-    private static int rows = 3;
-    private static int cols = 3;
+    private static final int rows = 3;
+    private static final int cols = 3;
     private int[][] winnerFields;
     private final JFrame frame = new JFrame("Tic-Tac-Toe");
     private final JPanel mainMenuPanel = new JPanel();
@@ -28,20 +28,20 @@ public class Board implements ActionListener {
     private final JButton[] gameOptionsButtons = new JButton[2];
     private final JButton rankingReturnButton = new JButton();
     private final JFileChooser fileChooser = new JFileChooser();
-    private DataSaver dataSaver = new DataSaver();
-    private DataLoader dataLoader = new DataLoader();
-    private Game game = new Game();
+    private final Game game = new Game();
+    private final DataSaver dataSaver = new DataSaver(game);
+    private final DataLoader dataLoader = new DataLoader(game);
 
     public Board() throws IOException {
 
         //Main Menu Panel Setup
         mainMenuPanel.setLayout(null);
-        mainMenuPanel.setBounds(0,0,800,800);
+        mainMenuPanel.setBounds(0, 0, 800, 800);
         mainMenuPanel.setBackground(new Color(24, 99, 203, 189));
         mainMenuPanel.setVisible(true);
         mainMenuTextField.setFont(new Font(Font.MONOSPACED, Font.BOLD, 75));
         mainMenuTextField.setText("Tic Tac Toe Game");
-        mainMenuTextField.setBounds(30,50,800,100);
+        mainMenuTextField.setBounds(30, 50, 800, 100);
         mainMenuPanel.add(mainMenuTextField);
         for (int i = 0; i < 4; i++) {
             mainMenuButtons[i] = new JButton();
@@ -53,23 +53,23 @@ public class Board implements ActionListener {
             mainMenuButtons[i].addActionListener(this);
         }
         mainMenuButtons[0].setText("New Game");
-        mainMenuButtons[0].setBounds(285,300,200,50);
+        mainMenuButtons[0].setBounds(285, 300, 200, 50);
         mainMenuButtons[1].setText("Load Game");
-        mainMenuButtons[1].setBounds(285,375,200,50);
+        mainMenuButtons[1].setBounds(285, 375, 200, 50);
         mainMenuButtons[2].setText("Rankings");
-        mainMenuButtons[2].setBounds(285,450,200,50);
+        mainMenuButtons[2].setBounds(285, 450, 200, 50);
         mainMenuButtons[3].setText("Quit");
-        mainMenuButtons[3].setBounds(285,525,200,50);
+        mainMenuButtons[3].setBounds(285, 525, 200, 50);
         fileChooser.setCurrentDirectory(new File("."));
 
         //New Game Panel Setup
         newGamePanel.setLayout(null);
-        newGamePanel.setBounds(0,0,800,800);
+        newGamePanel.setBounds(0, 0, 800, 800);
         newGamePanel.setBackground(new Color(24, 99, 203, 189));
         newGamePanel.setVisible(false);
         newGameTextField.setFont(new Font(Font.MONOSPACED, Font.BOLD, 75));
         newGameTextField.setText("Select Game Mode");
-        newGameTextField.setBounds(30,50,800,100);
+        newGameTextField.setBounds(30, 50, 800, 100);
         newGamePanel.add(newGameTextField);
         for (int i = 0; i < 3; i++) {
             newGameButtons[i] = new JButton();
@@ -81,15 +81,15 @@ public class Board implements ActionListener {
             newGameButtons[i].addActionListener(this);
         }
         newGameButtons[0].setText("Player Vs Machine");
-        newGameButtons[0].setBounds(285,300,200,50);
+        newGameButtons[0].setBounds(285, 300, 200, 50);
         newGameButtons[1].setText("Player Vs Player");
-        newGameButtons[1].setBounds(285,375,200,50);
+        newGameButtons[1].setBounds(285, 375, 200, 50);
         newGameButtons[2].setText("Return");
-        newGameButtons[2].setBounds(285,450,200,50);
+        newGameButtons[2].setBounds(285, 450, 200, 50);
 
         //Ranking Setup
         rankingPanel.setLayout(null);
-        rankingPanel.setBounds(0,0,800,800);
+        rankingPanel.setBounds(0, 0, 800, 800);
         rankingPanel.setBackground(new Color(24, 99, 203, 189));
         rankingPanel.setVisible(false);
         for (int i = 0; i < 3; i++) {
@@ -97,16 +97,16 @@ public class Board implements ActionListener {
             rankingPanel.add(rankingTextField[i]);
             rankingTextField[i].setFont(new Font("MS Gothic", Font.BOLD, 36));
         }
-        rankingTextField[0].setBounds(250,125,800,200);
-        rankingTextField[1].setBounds(250,200,800,200);
-        rankingTextField[2].setBounds(250,275,800,200);
+        rankingTextField[0].setBounds(250, 125, 800, 200);
+        rankingTextField[1].setBounds(250, 200, 800, 200);
+        rankingTextField[2].setBounds(250, 275, 800, 200);
         rankingReturnButton.setForeground(new Color(1, 2, 1, 184));
         rankingReturnButton.setBorder(BorderFactory.createEtchedBorder());
         rankingReturnButton.setFont(new Font("MS Gothic", Font.BOLD, 18));
         rankingReturnButton.setFocusable(false);
         rankingReturnButton.addActionListener(this);
         rankingReturnButton.setText("Return");
-        rankingReturnButton.setBounds(285,650,200,50);
+        rankingReturnButton.setBounds(285, 650, 200, 50);
         rankingPanel.add(rankingReturnButton);
 
         //Game Setup
@@ -124,7 +124,7 @@ public class Board implements ActionListener {
         gameButtonsPanel.setBackground(new Color(150, 150, 150));
 
         for (int i = 0; i < rows; i++) {
-            for(int k = 0; k < cols; k++) {
+            for (int k = 0; k < cols; k++) {
                 gameButtons[i][k] = new JButton();
                 gameButtonsPanel.add(gameButtons[i][k]);
                 gameButtons[i][k].setFont(new Font(Font.SANS_SERIF, Font.BOLD, 120));
@@ -134,7 +134,7 @@ public class Board implements ActionListener {
         }
 
         //Game Bottom Panel Setup
-        gameOptionsPanel.setLayout(new GridLayout(1,2));
+        gameOptionsPanel.setLayout(new GridLayout(1, 2));
         gameOptionsPanel.setBackground(new Color(25, 2, 2, 255));
         for (int i = 0; i < 2; i++) {
             gameOptionsButtons[i] = new JButton();
@@ -165,15 +165,14 @@ public class Board implements ActionListener {
         frame.add(gameTextPanel, BorderLayout.NORTH);
         frame.add(gameButtonsPanel, BorderLayout.CENTER);
         frame.add(gameOptionsPanel, BorderLayout.SOUTH);
-        dataLoader.loadRanking();
     }
 
-    public static void setGameTextField(String string){
+    public static void setGameTextField(String string) {
         gameTextField.setText(string);
     }
 
-    public static void resetGameButtons(){
-        for (int i = 0; i < rows; i++){
+    public static void resetGameButtons() {
+        for (int i = 0; i < rows; i++) {
             for (int k = 0; k < cols; k++) {
                 gameButtons[i][k].setEnabled(true);
                 gameButtons[i][k].setText("");
@@ -182,43 +181,42 @@ public class Board implements ActionListener {
         }
     }
 
-    public static void disableGameButtons(boolean draw){
-        for (int i = 0; i < rows; i++){
+    public static void disableGameButtons(boolean draw) {
+        for (int i = 0; i < rows; i++) {
             for (int k = 0; k < cols; k++) {
                 gameButtons[i][k].setEnabled(false);
-                if(draw){
+                if (draw) {
                     gameButtons[i][k].setBackground(Color.GRAY);
                 }
             }
         }
     }
 
-    public void update(String[][] board, boolean gameOver, boolean draw){
+    public void update(String[][] board, boolean gameOver, boolean draw) {
         for (int i = 0; i < rows; i++) {
-            for(int k = 0; k < cols; k++) {
+            for (int k = 0; k < cols; k++) {
                 gameButtons[i][k].setText(board[i][k]);
-                if(board[i][k].equals(Game.xSymbol)){
+                if (board[i][k].equals(game.xSymbol)) {
                     gameButtons[i][k].setForeground(new Color(255, 0, 0));
-                } else if(board[i][k].equals(Game.oSymbol)){
+                } else if (board[i][k].equals(game.oSymbol)) {
                     gameButtons[i][k].setForeground(new Color(0, 0, 255));
                 }
             }
         }
         gameOptionsButtons[0].setEnabled(true);
-        if(gameOver && !draw){
-            winnerFields = Game.getWinnerFields();
+        if (gameOver && !draw) {
+            winnerFields = game.getWinnerFields();
             gameButtons[winnerFields[0][0]][winnerFields[0][1]].setBackground(Color.GREEN);
             gameButtons[winnerFields[1][0]][winnerFields[1][1]].setBackground(Color.GREEN);
             gameButtons[winnerFields[2][0]][winnerFields[2][1]].setBackground(Color.GREEN);
             gameTextField.setText(game.getWhoWon() + " wins!");
             gameOptionsButtons[0].setEnabled(false);
             disableGameButtons(draw);
-        } else if (gameOver && draw){
+        } else if (gameOver && draw) {
             disableGameButtons(draw);
             gameOptionsButtons[0].setEnabled(false);
         }
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -235,14 +233,14 @@ public class Board implements ActionListener {
 
             int returnValue = fileChooser.showOpenDialog(null);
 
-            if(returnValue == JFileChooser.APPROVE_OPTION){
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 try {
                     dataLoader.loadGame(selectedFile);
                 } catch (FileNotFoundException ex) {
                     ex.printStackTrace();
                 }
-                if(Game.isIsPlayerOneTurn()){
+                if (game.isIsPlayerOneTurn()) {
                     gameTextField.setText("O turn");
                 } else {
                     gameTextField.setText("X Turn");
@@ -262,8 +260,8 @@ public class Board implements ActionListener {
             gameTextPanel.setVisible(true);
             gameOptionsPanel.setVisible(true);
             resetGameButtons();
-            game.gameSetup(GAMESTATE.PVE);
-            }
+            game.gameSetup(GameState.PVE);
+        }
 
         //Player Vs Machine
         if (e.getSource() == newGameButtons[1]) {
@@ -272,7 +270,7 @@ public class Board implements ActionListener {
             gameTextPanel.setVisible(true);
             gameOptionsPanel.setVisible(true);
             resetGameButtons();
-            game.gameSetup(GAMESTATE.PVP);
+            game.gameSetup(GameState.PVP);
         }
 
         //Rankings
@@ -280,11 +278,12 @@ public class Board implements ActionListener {
             mainMenuPanel.setVisible(false);
             rankingPanel.setVisible(true);
             try {
+                dataSaver.saveRanking();
                 dataLoader.loadRanking();
-                rankingTextField[0].setText("Player 'X': " + Game.getPlayerOneWins());
-                rankingTextField[1].setText("Player 'O': " + Game.getPlayerTwoWins());
-                rankingTextField[2].setText("Machine: " + Game.getMachineWins());
-            } catch (FileNotFoundException ex){
+                rankingTextField[0].setText("Player 'X': " + game.getPlayerOneWins());
+                rankingTextField[1].setText("Player 'O': " + game.getPlayerTwoWins());
+                rankingTextField[2].setText("Machine: " + game.getMachineWins());
+            } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
         }
@@ -294,7 +293,7 @@ public class Board implements ActionListener {
 
             int returnValue = fileChooser.showSaveDialog(null);
 
-            if(returnValue == JFileChooser.APPROVE_OPTION){
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 dataSaver.saveGame(selectedFile);
             }
@@ -338,3 +337,4 @@ public class Board implements ActionListener {
         }
     }
 }
+
