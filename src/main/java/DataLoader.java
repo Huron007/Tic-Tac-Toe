@@ -4,43 +4,37 @@ import java.util.Scanner;
 
 public class DataLoader {
 
-    Game game;
-
-    public DataLoader(Game game){
-        this.game = game;
-    }
-
     public void loadGame(File file) throws FileNotFoundException {
         Scanner scan = new Scanner(file);
-        game.setGameBoard((scan.nextLine()), 0, 0);
-        game.setGameBoard((scan.nextLine()), 0, 1);
-        game.setGameBoard((scan.nextLine()), 0, 2);
-        game.setGameBoard((scan.nextLine()), 1, 0);
-        game.setGameBoard((scan.nextLine()), 1, 1);
-        game.setGameBoard((scan.nextLine()), 1, 2);
-        game.setGameBoard((scan.nextLine()), 2, 0);
-        game.setGameBoard((scan.nextLine()), 2, 1);
-        game.setGameBoard((scan.nextLine()), 2, 2);
-        game.setIsPlayerOneTurn(Boolean.parseBoolean(scan.nextLine()));
-        game.setCounter(Integer.parseInt(scan.nextLine()));
+        Game.setGameBoard((scan.nextLine()), 0, 0);
+        Game.setGameBoard((scan.nextLine()), 0, 1);
+        Game.setGameBoard((scan.nextLine()), 0, 2);
+        Game.setGameBoard((scan.nextLine()), 1, 0);
+        Game.setGameBoard((scan.nextLine()), 1, 1);
+        Game.setGameBoard((scan.nextLine()), 1, 2);
+        Game.setGameBoard((scan.nextLine()), 2, 0);
+        Game.setGameBoard((scan.nextLine()), 2, 1);
+        Game.setGameBoard((scan.nextLine()), 2, 2);
+        Game.setIsPlayerOneTurn(Boolean.parseBoolean(scan.nextLine()));
+        Game.setCounter(Integer.parseInt(scan.nextLine()));
         String gameMode = scan.nextLine();
         switch (gameMode){
             case "PVP":
-                game.setState(GameState.PVP);
+                Game.setState(GAMESTATE.PVP);
                 break;
             case "PVE":
-                game.setState(GameState.PVE);
+                Game.setState(GAMESTATE.PVE);
                 break;
         }
         scan.close();
     }
 
     public void loadRanking() throws FileNotFoundException {
-        File ranking = new File(".","ranking.txt");
+        File ranking = new File("C:/Users/Tomek/IdeaProjects/Tic-Tac-Toe/src/main/resources/ranking.txt");
         Scanner scan = new Scanner(ranking);
-        game.setPlayerOneWins(Integer.parseInt(scan.nextLine()));
-        game.setPlayerTwoWins(Integer.parseInt(scan.nextLine()));
-        game.setMachineWins(Integer.parseInt(scan.nextLine()));
+        Game.setPlayerOneWins(Integer.parseInt(scan.nextLine()));
+        Game.setPlayerTwoWins(Integer.parseInt(scan.nextLine()));
+        Game.setMachineWins(Integer.parseInt(scan.nextLine()));
         scan.close();
     }
 }
