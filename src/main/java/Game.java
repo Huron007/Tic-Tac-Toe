@@ -24,7 +24,6 @@ public class Game {
     private boolean gameOver = false;
     private GameState state = GameState.PVE;
     private final Random rnd = new Random();
-    private final DataSaver dataSaver = new DataSaver(this);
 
     public void gameSetup(GameState gamestate){
         counter = 0;
@@ -137,6 +136,7 @@ public class Game {
                 {rowB, colB},
                 {rowC, colC}
         };
+        DataSaver dataSaver = new DataSaver(this);
         dataSaver.saveRanking();
     }
 
