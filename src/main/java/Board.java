@@ -337,4 +337,3 @@ public class Board implements ActionListener {
         }
     }
 }
-
