@@ -13,10 +13,10 @@ public class Game {
     private int rollRow;
     private int rollCol;
     private boolean draw;
-    public final String xSymbol = "X";
-    public final String oSymbol = "O";
+    public final static String X_SYMBOL = "X";
+    public final static String O_SYMBOL = "O";
     private String whoWon = "";
-    private final int maxNumberOfTurns = 9;
+    private final static int MAX_NUMBER_OF_TURNS = 9;
     private int playerOneWins = 0;
     private int playerTwoWins = 0;
     private int machineWins = 0;
@@ -40,30 +40,30 @@ public class Game {
                 counter++;
                 isDraw();
                 if (isPlayerOneTurn) {
-                    gameBoard[row][col] = xSymbol;
+                    gameBoard[row][col] = X_SYMBOL;
                     isPlayerOneTurn = false;
-                    Board.setGameTextField(oSymbol + " turn");
-                    check(xSymbol);
+                    Board.setGameTextField(O_SYMBOL + " turn");
+                    check(X_SYMBOL);
                 } else {
-                    gameBoard[row][col] = oSymbol;
+                    gameBoard[row][col] = O_SYMBOL;
                     isPlayerOneTurn = true;
-                    Board.setGameTextField(xSymbol + " turn");
-                    check(oSymbol);
+                    Board.setGameTextField(X_SYMBOL + " turn");
+                    check(O_SYMBOL);
                 }
                 if (draw) {
                     draw();
                 }
             } else if (state == GameState.PVE) {
                 if (isPlayerOneTurn) {
-                    gameBoard[row][col] = xSymbol;
+                    gameBoard[row][col] = X_SYMBOL;
                     isPlayerOneTurn = false;
                     counter++;
                     isDraw();
-                    Board.setGameTextField(xSymbol + " turn");
-                    check(xSymbol);
+                    Board.setGameTextField(X_SYMBOL + " turn");
+                    check(X_SYMBOL);
                     if (draw) {
                         draw();
-                    } else if(!gameOver && counter != maxNumberOfTurns){
+                    } else if(!gameOver && counter != MAX_NUMBER_OF_TURNS){
                         machineMove();
                     }
                 }
@@ -74,15 +74,15 @@ public class Game {
     public void machineMove(){
         rollRow = rnd.nextInt(gameBoard.length);
         rollCol = rnd.nextInt(gameBoard.length);
-        while (gameBoard[rollRow][rollCol].equals(xSymbol) || gameBoard[rollRow][rollCol].equals(oSymbol)){
+        while (gameBoard[rollRow][rollCol].equals(X_SYMBOL) || gameBoard[rollRow][rollCol].equals(O_SYMBOL)){
             rollRow = rnd.nextInt(gameBoard.length);
             rollCol = rnd.nextInt(gameBoard.length);
         }
         if (!isPlayerOneTurn) {
             if (gameBoard[rollRow][rollCol].equals("")) {
-                gameBoard[rollRow][rollCol] = oSymbol;
+                gameBoard[rollRow][rollCol] = O_SYMBOL;
                 isPlayerOneTurn = true;
-                check(oSymbol);
+                check(O_SYMBOL);
                 counter++;
                 isDraw();
                 if (draw) {
@@ -92,59 +92,41 @@ public class Game {
         }
     }
 
-    public void check(String move){
-        if (gameBoard[0][0].equals(move) &&
-            gameBoard[0][1].equals(move) &&
-            gameBoard[0][2].equals(move)){
-            whoWins(0,0,0, 1, 0, 2, move);
+    public void check(String figure){
+        for(int i = 0; i < 3; i++){
+            if (gameBoard[0][i].equals(figure) &&
+                gameBoard[1][i].equals(figure) &&
+                gameBoard[2][i].equals(figure)){
+                whoWins(0,i,1, i, 2, i, figure);
+            }
+            if (gameBoard[i][0].equals(figure) &&
+                gameBoard[i][1].equals(figure) &&
+                gameBoard[i][2].equals(figure)){
+                whoWins(i,0,i, 1, i, 2, figure);
+            }
         }
-        if (gameBoard[1][0].equals(move) &&
-            gameBoard[1][1].equals(move) &&
-            gameBoard[1][2].equals(move)){
-            whoWins(1,0,1, 1, 1, 2, move);
+        if (gameBoard[0][0].equals(figure) &&
+            gameBoard[1][1].equals(figure) &&
+            gameBoard[2][2].equals(figure)){
+            whoWins(0,0,1, 1, 2, 2, figure);
         }
-        if (gameBoard[2][0].equals(move) &&
-            gameBoard[2][1].equals(move) &&
-            gameBoard[2][2].equals(move)){
-            whoWins(2,0,2, 1, 2, 2, move);
-        }
-        if (gameBoard[0][0].equals(move) &&
-            gameBoard[1][0].equals(move) &&
-            gameBoard[2][0].equals(move)){
-            whoWins(0,0,1, 0, 2, 0, move);
-        }
-        if (gameBoard[0][1].equals(move) &&
-            gameBoard[1][1].equals(move) &&
-            gameBoard[2][1].equals(move)){
-            whoWins(0,1,1, 1, 2, 1, move);
-        }
-        if (gameBoard[0][2].equals(move) &&
-            gameBoard[1][2].equals(move) &&
-            gameBoard[2][2].equals(move)){
-            whoWins(0,2,1, 2, 2, 2, move);
-        }
-        if (gameBoard[0][0].equals(move) &&
-            gameBoard[1][1].equals(move) &&
-            gameBoard[2][2].equals(move)){
-            whoWins(0,0,1, 1, 2, 2, move);
-        }
-        if (gameBoard[0][2].equals(move) &&
-            gameBoard[1][1].equals(move) &&
-            gameBoard[2][0].equals(move)){
-            whoWins(0,2,1, 1, 2, 0, move);
+        if (gameBoard[0][2].equals(figure) &&
+            gameBoard[1][1].equals(figure) &&
+            gameBoard[2][0].equals(figure)){
+            whoWins(0,2,1, 1, 2, 0, figure);
         }
     }
 
     public void whoWins(int rowA, int colA, int rowB, int colB, int rowC, int colC, String winner){
-        if(winner.equals(xSymbol)){
+        if(winner.equals(X_SYMBOL)){
             playerOneWins++;
-            whoWon = xSymbol;
+            whoWon = X_SYMBOL;
         }
-        if(state == GameState.PVP && winner.equals(oSymbol)){
+        if(state == GameState.PVP && winner.equals(O_SYMBOL)){
             playerTwoWins++;
-            whoWon = oSymbol;
+            whoWon = O_SYMBOL;
         }
-        if(state == GameState.PVE && winner.equals(oSymbol)){
+        if(state == GameState.PVE && winner.equals(O_SYMBOL)){
             machineWins++;
             whoWon = "Machine";
         }
@@ -187,7 +169,7 @@ public class Game {
     }
 
     public void isDraw(){
-        if(counter == maxNumberOfTurns){
+        if(counter == MAX_NUMBER_OF_TURNS){
             draw = true;
         }
     }

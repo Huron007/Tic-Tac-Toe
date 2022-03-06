@@ -12,15 +12,11 @@ public class DataLoader {
 
     public void loadGame(File file) throws FileNotFoundException {
         Scanner scan = new Scanner(file);
-        game.setGameBoard((scan.nextLine()), 0, 0);
-        game.setGameBoard((scan.nextLine()), 0, 1);
-        game.setGameBoard((scan.nextLine()), 0, 2);
-        game.setGameBoard((scan.nextLine()), 1, 0);
-        game.setGameBoard((scan.nextLine()), 1, 1);
-        game.setGameBoard((scan.nextLine()), 1, 2);
-        game.setGameBoard((scan.nextLine()), 2, 0);
-        game.setGameBoard((scan.nextLine()), 2, 1);
-        game.setGameBoard((scan.nextLine()), 2, 2);
+        for(int i = 0; i < 3; i++){
+            game.setGameBoard((scan.nextLine()), i, 0);
+            game.setGameBoard((scan.nextLine()), i, 1);
+            game.setGameBoard((scan.nextLine()), i, 2);
+        }
         game.setIsPlayerOneTurn(Boolean.parseBoolean(scan.nextLine()));
         game.setCounter(Integer.parseInt(scan.nextLine()));
         String gameMode = scan.nextLine();

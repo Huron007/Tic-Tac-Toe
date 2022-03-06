@@ -196,9 +196,9 @@ public class Board implements ActionListener {
         for (int i = 0; i < rows; i++) {
             for (int k = 0; k < cols; k++) {
                 gameButtons[i][k].setText(board[i][k]);
-                if (board[i][k].equals(game.xSymbol)) {
+                if (board[i][k].equals(Game.X_SYMBOL)) {
                     gameButtons[i][k].setForeground(new Color(255, 0, 0));
-                } else if (board[i][k].equals(game.oSymbol)) {
+                } else if (board[i][k].equals(Game.O_SYMBOL)) {
                     gameButtons[i][k].setForeground(new Color(0, 0, 255));
                 }
             }

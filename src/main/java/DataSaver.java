@@ -13,10 +13,13 @@ public class DataSaver {
     public void saveGame(File file){
         try {
             FileWriter gameSaver = new FileWriter(file.getAbsolutePath() + ".txt");
-            String gameSave = game.getGameBoard()[0][0] + "\n" + game.getGameBoard()[0][1] + "\n" + game.getGameBoard()[0][2] + "\n" +
-                              game.getGameBoard()[1][0] + "\n" + game.getGameBoard()[1][1] + "\n" + game.getGameBoard()[1][2] + "\n" +
-                              game.getGameBoard()[2][0] + "\n" + game.getGameBoard()[2][1] + "\n" + game.getGameBoard()[2][2] + "\n" +
-                              game.isPlayerOneTurn() + "\n" + game.getCounter() + "\n" + game.getState();
+            String gameSave = "";
+            for(int i = 0; i < 3; i++){
+                gameSave += game.getGameBoard()[i][0] + "\n" + game.getGameBoard()[i][1] + "\n" + game.getGameBoard()[i][2] + "\n";
+                if(i == 2){
+                    gameSave += game.isPlayerOneTurn() + "\n" + game.getCounter() + "\n" + game.getState();
+                }
+            }
             gameSaver.write(gameSave);
             gameSaver.close();
         } catch (IOException e){
