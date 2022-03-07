@@ -93,26 +93,18 @@ public class Game {
 
     public void check(String figure){
         for(int i = 0; i < 3; i++){
-            if (gameBoard[0][i].equals(figure) &&
-                gameBoard[1][i].equals(figure) &&
-                gameBoard[2][i].equals(figure)){
-                whoWins(0,i,1, i, 2, i, figure);
-            }
-            if (gameBoard[i][0].equals(figure) &&
-                gameBoard[i][1].equals(figure) &&
-                gameBoard[i][2].equals(figure)){
-                whoWins(i,0,i, 1, i, 2, figure);
-            }
+            checkWinCombination(0,i,1, i, 2, i, figure);
+            checkWinCombination(i,0,i, 1, i, 2, figure);
         }
-        if (gameBoard[0][0].equals(figure) &&
-            gameBoard[1][1].equals(figure) &&
-            gameBoard[2][2].equals(figure)){
-            whoWins(0,0,1, 1, 2, 2, figure);
-        }
-        if (gameBoard[0][2].equals(figure) &&
-            gameBoard[1][1].equals(figure) &&
-            gameBoard[2][0].equals(figure)){
-            whoWins(0,2,1, 1, 2, 0, figure);
+        checkWinCombination(0,0,1, 1, 2, 2, figure);
+        checkWinCombination(0,2,1, 1, 2, 0, figure);
+    }
+
+    public void checkWinCombination(int x1, int y1, int x2, int y2, int x3, int y3, String figure) {
+        if (gameBoard[x1][y1].equals(figure) &&
+            gameBoard[x2][y2].equals(figure) &&
+            gameBoard[x3][y3].equals(figure)){
+            whoWins(x1, y1, x2, y2, x3, y3, figure);
         }
     }
 
