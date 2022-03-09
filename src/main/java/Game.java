@@ -24,6 +24,7 @@ public class Game {
     private boolean gameOver = false;
     private GameState state = GameState.PVE;
     private final Random rnd = new Random();
+    private DataSaver dataSaver = new DataSaver();
 
     public void gameSetup(GameState gamestate){
         counter = 0;
@@ -92,7 +93,7 @@ public class Game {
     }
 
     public void check(String figure){
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < gameBoard.length; i++){
             checkWinCombination(0,i,1, i, 2, i, figure);
             checkWinCombination(i,0,i, 1, i, 2, figure);
         }
@@ -128,8 +129,8 @@ public class Game {
                 {rowB, colB},
                 {rowC, colC}
         };
-        DataSaver dataSaver = new DataSaver(this);
-        dataSaver.saveRanking();
+
+        dataSaver.saveRanking(this);
     }
 
     public void draw(){

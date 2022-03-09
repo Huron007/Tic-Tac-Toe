@@ -29,8 +29,8 @@ public class Board implements ActionListener {
     private final JButton rankingReturnButton = new JButton();
     private final JFileChooser fileChooser = new JFileChooser();
     private final Game game = new Game();
-    private final DataSaver dataSaver = new DataSaver(game);
-    private final DataLoader dataLoader = new DataLoader(game);
+    private final DataSaver dataSaver = new DataSaver();
+    private final DataLoader dataLoader = new DataLoader();
 
     public Board() throws IOException {
 
@@ -236,7 +236,7 @@ public class Board implements ActionListener {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 try {
-                    dataLoader.loadGame(selectedFile);
+                    dataLoader.loadGame(selectedFile, game);
                 } catch (FileNotFoundException ex) {
                     ex.printStackTrace();
                 }
@@ -263,7 +263,7 @@ public class Board implements ActionListener {
             game.gameSetup(GameState.PVE);
         }
 
-        //Player Vs Machine
+        //Player Vs Player
         if (e.getSource() == newGameButtons[1]) {
             newGamePanel.setVisible(false);
             gameButtonsPanel.setVisible(true);
@@ -278,8 +278,8 @@ public class Board implements ActionListener {
             mainMenuPanel.setVisible(false);
             rankingPanel.setVisible(true);
             try {
-                dataSaver.saveRanking();
-                dataLoader.loadRanking();
+                dataSaver.saveRanking(game);
+                dataLoader.loadRanking(game);
                 rankingTextField[0].setText("Player 'X': " + game.getPlayerOneWins());
                 rankingTextField[1].setText("Player 'O': " + game.getPlayerTwoWins());
                 rankingTextField[2].setText("Machine: " + game.getMachineWins());
@@ -295,7 +295,7 @@ public class Board implements ActionListener {
 
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                dataSaver.saveGame(selectedFile);
+                dataSaver.saveGame(selectedFile, game);
             }
         }
 

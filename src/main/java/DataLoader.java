@@ -4,15 +4,10 @@ import java.util.Scanner;
 
 public class DataLoader {
 
-    Game game;
 
-    public DataLoader(Game game){
-        this.game = game;
-    }
-
-    public void loadGame(File file) throws FileNotFoundException {
+    public void loadGame(File file, Game game) throws FileNotFoundException {
         Scanner scan = new Scanner(file);
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < game.getGameBoard().length; i++){
             game.setGameBoard((scan.nextLine()), i, 0);
             game.setGameBoard((scan.nextLine()), i, 1);
             game.setGameBoard((scan.nextLine()), i, 2);
@@ -31,7 +26,7 @@ public class DataLoader {
         scan.close();
     }
 
-    public void loadRanking() throws FileNotFoundException {
+    public void loadRanking(Game game) throws FileNotFoundException {
         File ranking = new File(".","ranking.txt");
         Scanner scan = new Scanner(ranking);
         game.setPlayerOneWins(Integer.parseInt(scan.nextLine()));

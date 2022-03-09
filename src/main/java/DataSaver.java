@@ -4,17 +4,11 @@ import java.io.IOException;
 
 public class DataSaver {
 
-    Game game;
-
-    public DataSaver(Game game){
-        this.game = game;
-    }
-
-    public void saveGame(File file){
+    public void saveGame(File file, Game game){
         try {
             FileWriter gameSaver = new FileWriter(file.getAbsolutePath() + ".txt");
             String gameSave = "";
-            for(int i = 0; i < 3; i++){
+            for(int i = 0; i < game.getGameBoard().length; i++){
                 gameSave += game.getGameBoard()[i][0] + "\n" + game.getGameBoard()[i][1] + "\n" + game.getGameBoard()[i][2] + "\n";
                 if(i == 2){
                     gameSave += game.isPlayerOneTurn() + "\n" + game.getCounter() + "\n" + game.getState();
@@ -28,7 +22,7 @@ public class DataSaver {
         }
     }
 
-    public void saveRanking(){
+    public void saveRanking(Game game){
         try {
             File ranking = new File(".", "ranking.txt");
             ranking.createNewFile();
